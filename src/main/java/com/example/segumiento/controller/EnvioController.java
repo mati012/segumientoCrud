@@ -32,11 +32,15 @@ public class EnvioController {
     
     @GetMapping
     public List<Envio> getAllEnvios(){
+        log.info("GET/envios");
+        log.info("retorna todas los envios ");
         return envioService.getAllEnvios();
     }
 
     @PostMapping
     public Envio createEnvio(@RequestBody Envio envio) {
+        log.info("POST/envios");
+        log.info("crea un objeto envio");
         return envioService.createEnvio(envio); 
     }
     
