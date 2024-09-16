@@ -46,6 +46,10 @@ public class EnvioController {
     
     @PutMapping("/{id}/estado")
     public ResponseEntity<Envio> updateEstado(@PathVariable Long id, @RequestBody String nuevoEstado) {
+        log.info("PUT/envios/{id}/estado");
+        log.info("actuliza el estado de un envio por id ");
+
+
         Envio envioActualizado = envioService.updateEnvioEstado(id, nuevoEstado);
 
         if (envioActualizado != null) {
@@ -57,6 +61,9 @@ public class EnvioController {
     
     @GetMapping("/{id}/ubicacion")
     public ResponseEntity<String> getUbicacionById(@PathVariable Long id) {
+
+        log.info("GET/envios/{id}/ubicacion");
+        log.info("retorna la ubicacion de un envio  ");
         Optional<String> ubicacion = envioService.getUbicacionById(id);
 
         if (ubicacion.isPresent()) {
