@@ -45,4 +45,11 @@ public class EnvioServiceImpl implements EnvioService {
         return envio.map(Envio::getUbicacionActual);
     }
 
+    @Override
+    public void deleteEnvio(Long id){
+        envioRepository.deleteById(id);
+
+    }
+
+
 }
