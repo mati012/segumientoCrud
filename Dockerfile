@@ -1,4 +1,4 @@
-FROM openjdk:22-ea-24-oracle
+FROM eclipse-temurin:22-jdk AS buildstage
 
 RUN apt-get update &&  apt-get install -y maven
 
@@ -12,9 +12,9 @@ ENV TNS_ADMIN=/app/wallet
 
 RUN mvn clean package
 
-FROM openjdk:22-ea-24-oracle
+FROM eclipse-temurin:22-jdk 
 
-COPY --from=buildstage /app/target/seguimiento-0.0.1-SNAPSHOT.jar /app/seguimiento.jar
+COPY --from=buildstage /app/target/segumiento-0.0.1-SNAPSHOT.jar /app/segumiento.jar
 
 COPY Wallet_N72BZHZWYZGTE7OH /app/wallet
-ENTRYPOINT [ "java", "-jar","/app/seguimiento.jar" ]
+ENTRYPOINT [ "java", "-jar","/app/segumiento.jar" ]

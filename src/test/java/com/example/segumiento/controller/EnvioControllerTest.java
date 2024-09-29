@@ -17,7 +17,7 @@ import com.example.segumiento.service.EnvioService;
 import org.springframework.hateoas.EntityModel;
 @ExtendWith(MockitoExtension.class)
 public class EnvioControllerTest {
-      @Mock
+    @Mock
     private EnvioService envioService;
 
     @InjectMocks
