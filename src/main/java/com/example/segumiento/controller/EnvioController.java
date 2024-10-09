@@ -63,25 +63,45 @@ public class EnvioController {
     }
 
     @GetMapping("/{id}/getEnvios")
-    public ResponseEntity<EntityModel<String>> getUbicacionById(@PathVariable Long id) {
+    public ResponseEntity<EntityModel<Envio>> getEnvioById(@PathVariable Long id) {
         log.info("GET/envios/{id}/getEnvios");
-        log.info("retorna la ubicacion de un envio");
-        Optional<String> ubicacion = envioService.getUbicacionById(id);
-
-        if (ubicacion.isPresent()) {
-            EntityModel<String> ubicacionModel = EntityModel.of(ubicacion.get(),
+        log.info("Retorna la información de un envío");
+        Optional<Envio> envio = envioService.getEnvioById(id);
+    
+        if (envio.isPresent()) {
+            EntityModel<Envio> envioModel = EntityModel.of(envio.get(),
                     WebMvcLinkBuilder.linkTo(methodOn(EnvioController.class).getAllEnvios()).withSelfRel());
-
-            return ResponseEntity.ok(ubicacionModel);
+    
+            return ResponseEntity.ok(envioModel);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteEnvio(@PathVariable Long id) {
-        log.info("DELETE/envios/{id}");
-        envioService.deleteEnvio(id);
-        return ResponseEntity.noContent().build();
+    @GetMapping("/{id}/ubicacion")
+    public ResponseEntity<String> getUbicacionById(@PathVariable Long id) {
+        log.info("GET/envios/{id}/ubicacion");
+        log.info("Retorna la ubicación actual de un envío");
+        Optional<Envio> envio = envioService.getEnvioById(id);
+    
+        if (envio.isPresent()) {
+            return ResponseEntity.ok(envio.get().getUbicacionActual());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
+
+@DeleteMapping("/{id}")
+public ResponseEntity<?> deleteEnvio(@PathVariable Long id) {
+    log.info("DELETE/envios/{id}");
+    envioService.deleteEnvio(id);
+
+    // Crear un enlace a la lista de todos los envíos
+    WebMvcLinkBuilder linkToAllEnvios = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(EnvioController.class)
+            .getAllEnvios());
+
+    // Devolver un No Content con un enlace HATEOAS en el encabezado
+    return ResponseEntity.noContent().header("Link", linkToAllEnvios.withRel("todos-los-envios").toUri().toString()).build();
+}
+
 }

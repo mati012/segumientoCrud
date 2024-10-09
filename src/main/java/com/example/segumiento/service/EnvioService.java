@@ -11,4 +11,5 @@ public interface EnvioService {
     Envio updateEnvioEstado(Long id, String nuevoEstado);
     Optional<String> getUbicacionById(Long id);
     void deleteEnvio(Long id);
+    Optional<Envio> getEnvioById(Long id);
 }

@@ -25,7 +25,11 @@ public class EnvioServiceImpl implements EnvioService {
     public Envio createEnvio(Envio envio){
         return envioRepository.save(envio);
     }
-    
+    @Override
+public Optional<Envio> getEnvioById(Long id) {
+    return envioRepository.findById(id);
+}
+
     @Override
     public Envio updateEnvioEstado(Long id, String nuevoEstado) {
         Optional<Envio> envioExistente = envioRepository.findById(id);
